@@ -13,8 +13,8 @@ base_model = AutoModelForCausalLM.from_pretrained(
     "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
     low_cpu_mem_usage=True,
     return_dict=True,
-    torch_dtype=torch.float16,
-    device_map={"": 0},
+    torch_dtype=torch.float32,  # Use float32 for CPU
+    device_map={"": "cpu"},     # Specify CPU device
 )
 
 # Load PeftModel
@@ -26,7 +26,7 @@ pipe = pipeline(task="text-generation", model=model, tokenizer=tokenizer, max_le
 
 # Define the prompt template
 prompt_template = """### Instruction:
-Provide details about the  Adani Ports and Special Economic Zone Ltd
+Provide a detailed response to the following question
 ### Input:
 {}
 
